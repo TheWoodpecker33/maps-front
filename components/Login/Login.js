@@ -12,9 +12,18 @@ const Login = ({navigation}) => {
     function onPressLogin(){
         const payload = {username: username, password: password}
         const response = async (pay) => {
-            await APIKit.post("/login", pay)
-            .then(response => console.log(response.status))
-            .catch(err => console.log(err, err.message))
+            const data = await APIKit.post("/login", pay)
+            .then(response => {
+                console.log(response.data)
+                if(response.status != 200){
+                    setUsername("")
+                    setPassword("")
+                }
+                else{
+                    navigation.navigate('Home', response.data)
+                }
+            })
+            .catch(err => console.error(err))
         }
         response(payload)
     }
