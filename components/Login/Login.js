@@ -12,8 +12,8 @@ const Login = ({navigation}) => {
     function onPressLogin(){
         const payload = {username: username, password: password}
         const response = async (pay) => {
-            await APIKit.get("/users", pay)
-            .then(response => console.log(response))
+            await APIKit.post("/login", pay)
+            .then(response => console.log(response.status))
             .catch(err => console.log(err, err.message))
         }
         response(payload)
@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
     },
     inputView: {
       backgroundColor: '#EEEEEE',
-      borderRadius: 30,
-      width: '100%',
+      borderRadius: 10,
+      width: '80%',
       height: 45,
       marginBottom: 20,
       alignItems: 'center',

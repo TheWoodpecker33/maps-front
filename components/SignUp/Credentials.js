@@ -4,18 +4,21 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import APIKit from '../../http/client'
 
-const SignUp = ({navigation}) => {
+const SignUp = ({route, navigation}) => {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [password2, setPassword2] = useState('')
 
     function MoveToNext(){
-
+        const payload = route.params
+        payload.username = username
+        payload.password = password
+        navigation.navigate('Login')
     }
     
     function Cancel(){
-        navigation.navigate('Info', request)
+        navigation.navigate('Info')
     }
 
     return(
@@ -54,13 +57,13 @@ const SignUp = ({navigation}) => {
                 />
             </View>
             <View style={styles.btnContainer}>
-                <TouchableOpacity style={styles.cancelBtn} onPress={MoveToNext}>
-                    <Text>Cancel</Text>
+                <TouchableOpacity style={styles.cancelBtn} onPress={Cancel}>
+                    <Text>Go Back</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.btnContainer}>
-                <TouchableOpacity style={styles.nextBtn}>
-                    <Text>Next</Text>
+                <TouchableOpacity style={styles.nextBtn} onPress={MoveToNext}>
+                    <Text>Finish</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

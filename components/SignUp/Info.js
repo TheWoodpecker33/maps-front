@@ -9,7 +9,8 @@ const Info = ({navigation}) => {
     const [lastName, setLastName] = useState('')
 
     function MoveToNext(){
-        navigation.navigate('Credentials')
+        const payloadSoFar = {name: name, lastName: lastName}
+        navigation.navigate('Credentials', payloadSoFar)
     }
 
     function Cancel(){
