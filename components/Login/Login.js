@@ -1,27 +1,30 @@
 import React, { Component, useState } from 'react'
-import { View,TextInput, TouchableOpacity,Text, StyleSheet } from 'react-native'
+import { ScrollView,View,TextInput, TouchableOpacity,Text, StyleSheet,SafeAreaView } from 'react-native'
 import APIKit from '../../http/client'
-import axios from 'axios'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const Login = () => {
+const Login = ({navigation}) => {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-
-
     function onPressLogin(){
         const payload = {username: username, password: password}
-            const response = async () => {
-                await axios.get("https://192.168.1.69:3000/users")
-                .then(response => console.log(response))
-                .catch(err => console.log(err, err.message))
-            }
-            response()
+        const response = async (pay) => {
+            await APIKit.get("/users", pay)
+            .then(response => console.log(response))
+            .catch(err => console.log(err, err.message))
         }
+        response(payload)
+    }
+
+    function signUp(){
+        navigation.navigate('Info')
+    }
 
     return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
         <View style={styles.inputView}>
             <TextInput 
             style={styles.inputStyle}
@@ -44,7 +47,6 @@ const Login = () => {
             onChangeText={(password) => setPassword(password)}
             />
         </View>
-
         <TouchableOpacity>
             <Text style={styles.forgotPassword}>Forgot password?</Text>
         </TouchableOpacity>
@@ -54,9 +56,9 @@ const Login = () => {
         </TouchableOpacity>
         
         <TouchableOpacity>
-            <Text style={styles.signIn}>Sign in</Text>
+            <Text style={styles.signIn} onPress={signUp}>Sign in</Text>
         </TouchableOpacity>
-    </View>
+    </SafeAreaView>
     
     )
 }
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
     inputView: {
       backgroundColor: '#EEEEEE',
       borderRadius: 30,
-      width: '75%',
+      width: '100%',
       height: 45,
       marginBottom: 20,
       alignItems: 'center',
